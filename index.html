@@ -1,1 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Vidhya Sree Devaraju | Senior AI System Engineer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --border: #f1f5f9;
+            --surface: #f8fafc;
+        }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-main); line-height: 1.6; }
+        
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+
+        /* Navigation Responsive Fix */
+        nav {
+            padding: 20px 0; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); z-index: 100;
+        }
+        .nav-logo { font-family: 'Space Grotesk'; font-weight: 700; font-size: 1rem; letter-spacing: -0.5px; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a { text-decoration: none; color: var(--text-muted); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; transition: 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* Header Responsive Fix */
+        header { padding: 60px 0; display: flex; align-items: center; gap: 40px; border-bottom: 1px solid var(--border); }
+        .profile-wrap { flex-shrink: 0; }
+        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; border: 4px solid var(--surface); box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        
+        h1 { font-family: 'Space Grotesk'; font-size: clamp(2rem, 8vw, 3.5rem); line-height: 1; letter-spacing: -2px; margin-bottom: 20px; }
+        .objective { font-size: 1rem; color: var(--text-muted); max-width: 800px; font-weight: 300; }
+
+        section { padding: 60px 0; border-bottom: 1px solid var(--border); }
+        h2 { font-family: 'Space Grotesk'; font-size: 1.75rem; margin-bottom: 30px; letter-spacing: -1px; color: var(--accent); }
+
+        /* Grid System for Mobile/Tablet/Desktop */
+        .grid-3, .repo-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+        }
+
+        .repo-card { padding: 25px; background: #fff; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s ease; display: block; }
+        .repo-card:hover { border-color: var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: translateY(-2px); }
+
+        details { background: var(--surface); border-radius: 12px; border: 1px solid var(--border); margin-top: 15px; padding: 20px; }
+        summary { cursor: pointer; font-family: 'Space Grotesk'; font-weight: 700; font-size: 0.9rem; outline: none; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        summary::after { content: '+'; font-size: 1.2rem; color: var(--accent); }
+        details[open] summary::after { content: '-'; }
+
+        .project-env { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; margin: 10px 0; display: block; letter-spacing: 1px; }
+        .section-tag { font-weight: 800; color: var(--text-main); font-size: 0.8rem; text-transform: uppercase; margin: 20px 0 10px 0; display: block; border-left: 3px solid var(--accent); padding-left: 10px; }
+
+        .bullet-list { list-style: none; padding-left: 0; margin-top: 15px; }
+        .bullet-list li { margin-bottom: 10px; font-size: 0.9rem; color: var(--text-muted); position: relative; padding-left: 20px; }
+        .bullet-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
+
+        .project-block { margin-bottom: 30px; padding: 25px; background: var(--surface); border-radius: 12px; border: 1px solid var(--border); }
+        .desc-text { font-size: 0.9rem; color: var(--text-muted); margin: 15px 0; }
+
+        footer { padding: 40px 0; text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+
+        /* RESPONSIVE BREAKPOINTS */
+        @media (max-width: 768px) { 
+            header { flex-direction: column; text-align: center; padding: 40px 0; }
+            .nav-links { gap: 10px; }
+            .nav-links a { font-size: 0.6rem; }
+            .nav-logo { display: none; } /* Hide long logo on small mobile */
+            h1 { letter-spacing: -1px; }
+        }
+
+        /* Card Styles */
+        #education .project-block, .card {
+            border-top: 4px solid var(--accent); 
+            background: #ffffff; 
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            height: 100%; 
+            display: flex;
+            flex-direction: column;
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        #education h4, .card h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            color: var(--text-main);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <nav>
+            <div class="nav-logo">VIDHYA SREE DEVARAJU</div>
+            <div class="nav-links">
+                <a href="#ai-specialization">AI</a>
+                <a href="#stack-radar">Stack</a>
+                <a href="#experience">MSFT</a>
+                <a href="#in-house">Projects</a>
+            </div>
+        </nav>
+
+        <header>
+            <div class="profile-wrap"><img src="profile.jpg" alt="Vidhyasree Devaraju" class="profile-img"></div>
+            <div>
+                <span style="font-size: 0.7rem; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 2px;">Software Engineer // Microsoft Vendor</span>
+                <h1>Systems & <br>Cloud Engineering.</h1>
+                <p class="objective">Results-driven Software Engineer with 8 years of experience in designing and implementing high-quality cloud and web solutions. Expertise in Azure Fleet Resiliency, Cosmos DB, and Agentic AI workflows.</p>
+            </div>
+        </header>
+
+        <section id="ai-specialization">
+            <h2>AI Specialization & Masteries</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <span class="project-env">Orchestration</span>
+                    <h4>Agentic Workflows</h4>
+                    <ul class="bullet-list" style="font-size: 0.85rem;">
+                        <li>Implementing <strong>LangChain</strong> and <strong>LangGraph</strong> for autonomous system investigators.</li>
+                        <li>Developing stateful agents that can "reason" through Azure live-site incident logs.</li>
+                        <li>Researching <strong>RAG</strong> architectures to bridge enterprise data with LLMs.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="project-env">Systems Integration</span>
+                    <h4>Applied AIOps</h4>
+                    <ul class="bullet-list" style="font-size: 0.85rem;">
+                        <li>Studying LLM-based <strong>Root Cause Analysis (RCA)</strong> to automate triage for fleet incidents.</li>
+                        <li>Engineering prompts to transform complex <strong>Kusto (KQL)</strong> results into actionable AI insights.</li>
+                        <li>Focused on reducing <strong>MTTR</strong> (Mean Time To Recovery) using intelligent agent monitoring.</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <span class="project-env">Scalability</span>
+                    <h4>AI Infrastructure</h4>
+                    <ul class="bullet-list" style="font-size: 0.85rem;">
+                        <li>Evaluating <strong>Vector Databases</strong> (like Pinecone) for high-dimensional telemetry storage.</li>
+                        <li>Researching <strong>LLMOps</strong>—applying the same resiliency used in Azure SQL to AI model production.</li>
+                        <li>Tracking industry shifts in model fine-tuning and domain-specific LLM performance.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="stack-radar">
+            <h2>Systems & AI Stack</h2>
+            <div class="repo-grid">
+                <div class="repo-card">
+                    <span class="section-tag">Backend & Cloud</span>
+                    <p class="desc-text">.NET Core, Azure Functions, Microservices, SQL Server, Cosmos DB, Azure Fleet Management.</p>
+                </div>
+                <div class="repo-card">
+                    <span class="section-tag">Observability (AIOps)</span>
+                    <p class="desc-text">Kusto (KQL), Azure Data Explorer, Power BI (DAX), IcM Triage, Telemetry Analysis.</p>
+                </div>
+                <div class="repo-card">
+                    <span class="section-tag">AI Orchestration</span>
+                    <p class="desc-text">LangChain, LangGraph, OpenAI API, RAG Architecture, Vector Databases (Pinecone).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Microsoft Projects (Quadrant Resources)</h2>
+            
+            <div class="project-block">
+                <h3>Azure SQL DB Capacity Management</h3>
+                <span class="project-env">April 2022 — Present | v-vdevaraju@microsoft.com | Team Size: 3</span>
+                <p class="desc-text">Our project primarily focuses on data analysis and utilization across global regions. The main objective is to ensure minimal utilization percentages in all regions, thereby avoiding hot segments and potential issues with customer data.
+Data utilization is a crucial aspect that directly impacts business performance. It helps identify areas requiring more attention and resources. By maintaining minimal utilization percentages, we can effectively manage data and prevent problems arising from excessive data usage.</p>
+                
+                <details>
+                    <summary>Value Adds & Major Milestones</summary>
+                    <span class="section-tag">Value Adds</span>
+                    <ul class="bullet-list">
+                        <li>Proactive Capacity Management: Played a central role in short-term planning, absorbing sudden demand spikes for service stability.</li>
+                        <li>Standardized Incident Triage: Streamlined investigation workflows by leveraging KQL, SQL, and IcM telemetry.</li>
+                        <li>Global Team Synergy: Reliable bridge between onshore and offshore teams for coordination on capacity planning.</li>
+                        <li>Executive Communication: Transformed technical data into professional incident updates and status reports.</li>
+                        <li>Process Automation: Identified repeat patterns and proposed automated, script-ready workflows.</li>
+                    </ul>
+
+                    <span class="section-tag">AI Work & Business Benefits</span>
+                    <ul class="bullet-list">
+                        <li>Operational AI Integration: Applying AI tools into daily operational workflows to boost team productivity.</li>
+                        <li>Service Reliability & MTTR: Accelerated incident resolution times and improved overall availability.</li>
+                        <li>Infrastructure Modernization: Successfully achieved 100% adoption of PaaSv2 ahead of projected timelines.</li>
+                        <li>Hardware Decommissioning: Fully decommissioned xxx of Gen3 & Gen4 hardware and achieved xxx return rate for Gen7.</li>
+                        <li>Customer Success: Drove Zonal onboarding progress for eligible S500 customers to xxx.</li>
+                    </ul>
+
+                    <span class="section-tag">Core Operations</span>
+                    <ul class="bullet-list">
+                        <li>Migrations: Successfully driving complex transitions (SPO to Gen8, QCS, MAZ).</li>
+                        <li>RDFE to PaaSv2 Conversion: Executed multi-year migration, sending xxxx rings to Decom within a 90-day window.</li>
+                        <li>RCS Workflow Automation: Engineered RCS automation with built-in validation and dynamic retry logic.</li>
+                        <li>Power BI: Developed an end-to-end dashboard using advanced DAX queries to track the ICM backlog and resolution counts.</li>
+                        <li>Resiliency & Configuration Rollouts: Implemented fallback settings and orchestrated timely deployment to safeguard availability.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="project-block">
+                <h3>Azure Cosmos DB</h3>
+                <span class="project-env">Dec 2019 — Sept 2021 | v-viddev@microsoft.com | Team Size: 9</span>
+                <p class="desc-text">Microsoft's globally distributed database service. Involved in elastically scaling throughput and storage across geographic regions. Worked across separated teams for continuous integration, deployment, backup and restore, and dashboard modules.</p>
+                
+                <details>
+                    <summary>Responsibilities & Modules</summary>
+                    <span class="section-tag">Module I: Dashboard</span>
+                    <ul class="bullet-list">
+                        <li>Developed a module to calculate total Azure Spend for subscriptions across environments.</li>
+                        <li>Worked on AAD Token integration and wrote unit test cases using Moq.</li>
+                        <li>Implemented MS-Flows for notification triggers related to Azure cost and exceptions.</li>
+                        <li>Involved in creating Azure Functions and managing deployment processes.</li>
+                    </ul>
+
+                    <span class="section-tag">Module II: Engineering Systems</span>
+                    <ul class="bullet-list">
+                        <li>Monitored pipelines in both Build and Test phases.</li>
+                        <li>Leveraged MS-Flows to send daily reports and automatically create IcMs for build failures.</li>
+                        <li>Directly interacted with clients for gathering new requirements.</li>
+                        <li>Wrote PowerShell scripts for disk cleanups and Windows updates in Azure file server and scale sets.</li>
+                        <li>Participated in Status meetings and maintained TSGs using .md files.</li>
+                        <li>Worked on Power BI reports for Incident Management tracking using complex KQL and DAX queries.</li>
+                    </ul>
+                </details>
+            </div>
+        </section>
+
+        <section id="in-house">
+            <h2>In-House Projects (2018 — 2019)</h2>
+            
+            <div class="project-block">
+                <h3>WATS Portal</h3>
+                <span class="project-env">Role: .NET Developer | .NET MVC 4.0, Bootstrap, SQL 2012 | Team Size: 4 </span>
+                <p class="desc-text">Developed an Event Management System for Washington Telugu Samithi (WATA), streamlining the organization and ticketing process for events. The system enables users to seamlessly browse upcoming events, purchase tickets securely, and receive event-related updates. Implemented a user-friendly interface to enhance the overall user experience.</p>
+                <details>
+                    <summary>Responsibilities</summary>
+                    <ul class="bullet-list">
+                        <li>Participated in daily scrums with the project lead to meet requirements and deadlines.</li>
+                        <li>Developed, tested, debugged, and supported C# ASP.Net applications with MVC architecture.</li>
+                        <li>Designed the UI using HTML5, jQuery, and CSS.</li>
+                        <li>Created stored procedures for inserting, deleting, and updating data in SQL Server.</li>
+                        <li>Implemented Form-based Authentication for user login security.</li>
+                        <li>Created Database Design, complex Stored Procedures, Functions, and SQL joins.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="project-block">
+                <h3>Office Management Portal</h3>
+                <span class="project-env">Role: .NET Developer | .NET MVC 4.0, LINQ, SQL 2012 |Team Size: 4</span>
+                <p class="desc-text">Helps management track employee performance, maintenance, projects, and task assignments. Supports features like sending/receiving emails, leave requests, chatting with the team, and tracking reporting authorities (WHO) and billing details.</p>
+                <details>
+                    <summary>Responsibilities</summary>
+                    <ul class="bullet-list">
+                        <li>Participated in daily scrums with the project lead.</li>
+                        <li>Developed, tested, and debugged ASP.Net different internet browsers with MVC architecture.</li>
+                        <li>Designed the UI using HTML5, jQuery, and CSS.</li>
+                        <li>Created stored procedures for inserting, deleting, and updating screen data.</li>
+                        <li>Created Login Forms and implemented Form-based Authentication.</li>
+                        <li>Managed customer module for viewing billing details, payments, and dues.</li>
+                        <li>Created complex Stored Procedures, Functions, and SQL joins.</li>
+                    </ul>
+                </details>
+            </div>
+
+            <div class="project-block">
+                <h3>SRK Travels</h3>
+                <span class="project-env">Role: .NET Developer | .NET MVC 4.0, SQL 2012 |Team Size: 4</span>
+                <p class="desc-text">Tours & Travels Management System Transport solution to various districts and districts of the country. Refactored manual transport processes into an automated digital solution maintaining details of tours, employees, and customers.</p>
+                <details>
+                    <summary>Responsibilities</summary>
+                    <ul class="bullet-list">
+                        <li>Participated in daily scrums with the project lead.</li>
+                        <li>Developed, tested, and debugged C# ASP.Net with MVC architecture.</li>
+                        <li>Designed the UI using HTML5, jQuery, and CSS.</li>
+                        <li>Created stored procedures and complex T-SQL code for data integrity.</li>
+                        <li>Created Database Design and Created Tables according to requirements.</li>
+                        <li>Ensured secure authentication and organized SQL joins for large data sets.</li>
+                    </ul>
+                </details>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Education & Professional Learning</h2>
+            <div class="grid-3">
+                <div class="project-block">
+                    <span class="project-env">Degree</span>
+                    <h4>Bachelor of Commerce (B.Com Computer Application)</h4>
+                    <p class="desc-text">Specialization in Computer Applications</p>
+                    <p style="font-weight: 700; color: var(--accent);">Passed Out: 2018</p>
+                </div>
+
+                <div class="project-block">
+                    <span class="project-env">AI Curriculum</span>
+                    <h4>Active Learning & Courses</h4>
+                    <ul class="bullet-list" style="font-size: 0.85rem;">
+                        <li><strong>Deep Learning Specialization</strong> – Focus on Transformer architectures.</li>
+                        <li><strong>Generative AI with LLMs</strong> – Mastering LangChain & RAG.</li>
+                        <li><strong>Azure AI Engineer</strong> – Integrating Cognitive Services.</li>
+                    </ul>
+                </div>
+
+                <div class="project-block">
+                    <span class="project-env">Certifications</span>
+                    <h4>Microsoft Certified</h4>
+                    <p class="desc-text">AZ-204: Developing Solutions for Microsoft Azure</p>
+                    <p style="font-weight: 700; color: var(--accent);">Issued 2020</p>
+                    <p class="desc-text" style="margin-top: 10px;">DP-600: Fabric Analytics Engineer Associate</p>
+                    <p style="font-weight: 700; color: var(--accent);">Issued 2026</p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 Vidhyasree Devaraju | Redmond, WA | vidya98sree@gmail.com</p>
+            <p style="margin-top: 10px; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px;">QUADRANT RESOURCES // MICROSOFT VENDOR</p>
+        </footer>
+    </div>
+
+</body>
+</html>
