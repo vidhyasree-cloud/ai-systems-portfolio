@@ -383,29 +383,35 @@ function investigate() {
     let kql = "// No specific patterns recognized. Checking general heartbeats.\nHeartbeat | take 10";
     let action = "Manual intervention required: Insufficient telemetry data.";
 
-    // 1. MOBILE DATA SIGNAL
-    if (input.includes("mobile") || input.includes("android") || input.includes("ios")) {
-        observation = "AppCenter signal: 25% crash increase on v4.2.1. Affecting iOS devices in West US.";
+    // 1. CLIENT / MOBILE SIGNAL
+    if (input.includes("mobile") || input.includes("client") || input.includes("ios") || input.includes("android")) {
+        observation = "AppCenter signal: 25% crash increase on v4.2.1. Affecting edge devices in Zone-A.";
         kql = "AppCenterErrors\n| where AppVersion == '4.2.1'\n| summarize count() by DeviceModel, OSVersion\n| render piechart";
-        action = "Action: Alerting Mobile Dev-Ops. Initiating phased rollback of v4.2.1.";
+        action = "Action: Alerting Client Dev-Ops. Initiating phased rollback of v4.2.1.";
     } 
-    // 2. WEB / FRONTEND SIGNAL
+    // 2. GLOBAL ENDPOINT / TRAFFIC SIGNAL
+    else if (input.includes("global") || input.includes("endpoint") || input.includes("traffic")) {
+        observation = "Edge Latency: Significant deviation in Global Endpoint response times.";
+        kql = "AppRequests\n| where Success == false\n| summarize FailureRate = countif(ResultCode >= 500) / count() by bin(TimeGenerated, 5m)";
+        action = "Action: Triggering Traffic Manager failover to secondary healthy cluster.";
+    } 
+    // 3. CLUSTER / FLEET SIGNAL
+    else if (input.includes("zone") || input.includes("cluster") || input.includes("fleet")) {
+        observation = "Cluster Health: Critical resource exhaustion in Zone-A fleet.";
+        kql = "InsightsMetrics\n| where Name == 'UtilizationPercentage'\n| summarize avg(Val) by Computer, bin(TimeGenerated, 1m)";
+        action = "Action: Initiating horizontal pod autoscaling for Zone-A workloads.";
+    }
+    // 4. DATA TIER / KQL SIGNAL
+    else if (input.includes("sql") || input.includes("cosmos") || input.includes("database")) {
+        observation = "DTU Exhaustion: Data Tier 'FleetDB' is at 99.8% utilization.";
+        kql = "AzureDiagnostics\n| where ResourceProvider == 'MICROSOFT.SQL'\n| where Category == 'DatabaseWaitStatistics'\n| summarize sum(WaitTimeMs) by WaitCategory";
+        action = "Action: Scaling DTUs. Identifying top 5 long-running queries for optimization.";
+    }
+    // 5. WEB / FRONTEND SIGNAL (Fallback search)
     else if (input.includes("web") || input.includes("page") || input.includes("browser")) {
         observation = "Frontend Latency: 8.5s average load time detected for 'Home' route.";
         kql = "AppRequests\n| where Name has 'Home'\n| summarize avg(Duration) by bin(TimeGenerated, 15m)\n| render timechart";
         action = "Action: Purging CDN cache. Scaled out Web-Front-End (WFE) instances.";
-    } 
-    // 3. DATABASE / KQL SIGNAL
-    else if (input.includes("sql") || input.includes("cosmos") || input.includes("database")) {
-        observation = "DTU Exhaustion: Azure SQL DB 'FleetDB' is at 99.8% utilization.";
-        kql = "AzureDiagnostics\n| where ResourceProvider == 'MICROSOFT.SQL'\n| where Category == 'DatabaseWaitStatistics'\n| summarize sum(WaitTimeMs) by WaitCategory";
-        action = "Action: Scaling DTUs. Identifying top 5 long-running queries for optimization.";
-    }
-    // 4. REGIONAL / NETWORK SIGNAL
-    else if (input.includes("east") || input.includes("west") || input.includes("region")) {
-        observation = "Regional Outage: Networking heartbeat lost in 'East US 2'.";
-        kql = "AzureNetworkAnalytics_CL\n| where FlowStatus_s == 'Denied'\n| summarize count() by SourceIP_s, DestPublicIP_s";
-        action = "Action: Failover initiated. Redirecting traffic to 'West US' via Traffic Manager.";
     }
 
     // Update the UI
