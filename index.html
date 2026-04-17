@@ -378,51 +378,56 @@ Data utilization is a crucial aspect that directly impacts business performance.
         </footer>
     </div>
 <script>
-function investigate() {
-    const input = document.getElementById('incidentInput').value.toLowerCase();
+function runInvestigation() {
+    // 1. FAIL FAST: Check if input is empty before doing anything else
+    const inputField = document.getElementById('incidentInput');
+    const input = inputField.value.trim().toLowerCase();
     const resultBox = document.getElementById('rcaResult');
-    
-    // Default values (Fallback)
-    let observation = "Analyzing telemetry signals across the fleet...";
-    let kql = "// No specific patterns recognized. Checking general heartbeats.\nHeartbeat | take 10";
-    let action = "Manual intervention required: Insufficient telemetry data.";
 
-    // 1. CLIENT / MOBILE SIGNAL
+    if (input === "") {
+        alert("System Error: No incident signal detected. Please describe a cluster or client failure.");
+        inputField.focus(); // Guides the user back to the box
+        return; // Stops the function here
+    }
+
+    // 2. LOGIC PROCESSING (The "Brain")
+    let observation, kql, action;
+
     if (input.includes("mobile") || input.includes("client") || input.includes("ios") || input.includes("android")) {
         observation = "AppCenter signal: 25% crash increase on v4.2.1. Affecting edge devices in Zone-A.";
         kql = "AppCenterErrors\n| where AppVersion == '4.2.1'\n| summarize count() by DeviceModel, OSVersion\n| render piechart";
         action = "Action: Alerting Client Dev-Ops. Initiating phased rollback of v4.2.1.";
     } 
-    // 2. GLOBAL ENDPOINT / TRAFFIC SIGNAL
     else if (input.includes("global") || input.includes("endpoint") || input.includes("traffic")) {
         observation = "Edge Latency: Significant deviation in Global Endpoint response times.";
         kql = "AppRequests\n| where Success == false\n| summarize FailureRate = countif(ResultCode >= 500) / count() by bin(TimeGenerated, 5m)";
         action = "Action: Triggering Traffic Manager failover to secondary healthy cluster.";
     } 
-    // 3. CLUSTER / FLEET SIGNAL
     else if (input.includes("zone") || input.includes("cluster") || input.includes("fleet")) {
         observation = "Cluster Health: Critical resource exhaustion in Zone-A fleet.";
         kql = "InsightsMetrics\n| where Name == 'UtilizationPercentage'\n| summarize avg(Val) by Computer, bin(TimeGenerated, 1m)";
         action = "Action: Initiating horizontal pod autoscaling for Zone-A workloads.";
     }
-    // 4. DATA TIER / KQL SIGNAL
-    else if (input.includes("sql") || input.includes("cosmos") || input.includes("database")) {
+    else if (input.includes("sql") || input.includes("cosmos") || input.includes("database") || input.includes("data tier")) {
         observation = "DTU Exhaustion: Data Tier 'FleetDB' is at 99.8% utilization.";
         kql = "AzureDiagnostics\n| where ResourceProvider == 'MICROSOFT.SQL'\n| where Category == 'DatabaseWaitStatistics'\n| summarize sum(WaitTimeMs) by WaitCategory";
         action = "Action: Scaling DTUs. Identifying top 5 long-running queries for optimization.";
     }
-    // 5. WEB / FRONTEND SIGNAL (Fallback search)
-    else if (input.includes("web") || input.includes("page") || input.includes("browser")) {
-        observation = "Frontend Latency: 8.5s average load time detected for 'Home' route.";
-        kql = "AppRequests\n| where Name has 'Home'\n| summarize avg(Duration) by bin(TimeGenerated, 15m)\n| render timechart";
-        action = "Action: Purging CDN cache. Scaled out Web-Front-End (WFE) instances.";
+    else {
+        // Fallback Default
+        observation = "Analyzing telemetry signals across the fleet...";
+        kql = "Heartbeat | summarize LastCall = max(TimeGenerated) by Computer | take 10";
+        action = "Manual intervention required: Insufficient telemetry data for automated triage.";
     }
 
-    // Update the UI
+    // 3. UI UPDATE
     document.getElementById('obsText').innerText = observation;
     document.getElementById('kqlCode').innerText = kql;
     document.getElementById('actionText').innerText = action;
+    
+    // Show the result box
     resultBox.classList.remove('hidden');
+    resultBox.style.display = 'block'; // Ensures it's visible
 }
 </script>
 </body>
