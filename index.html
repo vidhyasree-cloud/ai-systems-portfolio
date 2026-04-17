@@ -122,6 +122,27 @@
                 <p class="objective">Results-driven Software Engineer with 8 years of experience in designing and implementing high-quality cloud and web solutions. Expertise in Azure Fleet Resiliency, Cosmos DB, and Agentic AI workflows.</p>
             </div>
         </header>
+        <section id="ai-demo" style="background: var(--surface); border: 2px solid var(--accent); border-radius: 12px; padding: 30px; margin-top: 40px; margin-bottom: 40px;">
+            <h3 style="color: var(--accent); font-family: 'Space Grotesk'; margin-bottom: 10px;">
+                <i class="fas fa-robot"></i> Agentic SRE Simulator
+            </h3>
+            <p class="desc-text" style="margin-bottom: 20px;">
+                <strong>Test my AI workflow:</strong> Describe a system failure to see how the agent triages the incident using KQL patterns.
+            </p>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="text" id="incidentInput" placeholder="e.g. High 5xx errors in West US 2..." 
+                       style="flex: 1; min-width: 250px; padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+                <button onclick="runInvestigation()" style="background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s;">
+                    Investigate
+                </button>
+            </div>
+
+            <div id="aiResponse" style="margin-top: 20px; font-size: 0.9rem; display: none; background: white; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                </div>
+        </section>
+
+        <section id="ai-specialization">
 
         <section id="ai-specialization">
             <h2>AI Specialization & Masteries</h2>
@@ -336,6 +357,46 @@ Data utilization is a crucial aspect that directly impacts business performance.
             <p style="margin-top: 10px; font-size: 0.7rem; color: var(--accent); letter-spacing: 2px;">QUADRANT RESOURCES // MICROSOFT VENDOR</p>
         </footer>
     </div>
+<script>
+function runInvestigation() {
+    const input = document.getElementById('incidentInput').value;
+    const responseBox = document.getElementById('aiResponse');
+    
+    if(!input) {
+        alert("Please enter an incident (e.g., 'High latency in SQL')");
+        return;
+    }
 
+    // Show the box and show "Thinking" state
+    responseBox.style.display = 'block';
+    responseBox.innerHTML = `
+        <div style="color: var(--text-muted); font-style: italic;">
+            <i class="fas fa-spinner fa-spin"></i> Agent is reasoning through Kusto logs...
+        </div>`;
+
+    // Simulate Agentic Workflow steps
+    setTimeout(() => {
+        responseBox.innerHTML = `
+            <div style="border-left: 3px solid var(--accent); padding-left: 15px;">
+                <h4 style="color: var(--accent); margin-bottom: 10px;">
+                    <i class="fas fa-check-circle"></i> RCA Analysis Complete
+                </h4>
+                <p style="font-size: 0.85rem; margin-bottom: 10px;">
+                    <strong>Observation:</strong> Detected 15% spike in 503 errors correlated with 'East US' regional failover.
+                </p>
+                <div style="background: #1e293b; color: #f8fafc; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 0.8rem; margin-bottom: 10px;">
+                    <span style="color: #94a3b8;">// Suggested KQL Investigation</span><br>
+                    AzureDiagnostics<br>
+                    | where Category == "SQLSecurityAuditEvents"<br>
+                    | summarize count() by bin(TimeGenerated, 1h), ResultType
+                </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">
+                    <strong>Action:</strong> Automated triage suggests scaling Cosmos DB throughput in the affected region.
+                </p>
+            </div>
+        `;
+    }, 2000);
+}
+</script>
 </body>
 </html>
