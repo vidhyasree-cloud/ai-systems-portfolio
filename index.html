@@ -122,7 +122,7 @@
                 <p class="objective">Results-driven Software Engineer with 8 years of experience in designing and implementing high-quality cloud and web solutions. Expertise in Azure Fleet Resiliency, Cosmos DB, and Agentic AI workflows.</p>
             </div>
         </header>
-        <section id="ai-demo" style="background: var(--surface); border: 2px solid var(--accent); border-radius: 12px; padding: 30px; margin-top: 40px; margin-bottom: 40px;">
+ <section id="ai-demo" style="background: var(--surface); border: 2px solid var(--accent); border-radius: 12px; padding: 30px; margin-top: 40px; margin-bottom: 40px;">
             <h3 style="color: var(--accent); font-family: 'Space Grotesk'; margin-bottom: 10px;">
                 <i class="fas fa-robot"></i> Agentic SRE Simulator
             </h3>
@@ -131,23 +131,25 @@
             </p>
             
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-    <textarea id="incidentInput" 
-              placeholder="Try: 'Production cluster latency' or 'Cross-platform mobile crash spike'"
-              style="flex: 1; min-width: 250px; padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
-    </textarea>
+                <textarea id="incidentInput" 
+                          placeholder="Try: 'Production cluster latency' or 'Cross-platform mobile crash spike'"
+                          style="flex: 1; min-width: 250px; padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+                </textarea>
 
-    <button onclick="runInvestigation()" 
-            style="background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s;">
-        Investigate
-    </button>
-</div>
+                <button onclick="runInvestigation()" 
+                        style="background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s;">
+                    Investigate
+                </button>
+            </div>
 
-            <div id="aiResponse" style="margin-top: 20px; font-size: 0.9rem; display: none; background: white; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <div id="rcaResult" style="margin-top: 20px; font-size: 0.9rem; display: none; background: white; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+                <p><strong>Observation:</strong> <span id="obsText"></span></p>
+                <div style="background: #f8fafc; padding: 15px; border-radius: 6px; overflow-x: auto; margin: 10px 0; border: 1px solid var(--border);">
+                    <pre><code id="kqlCode" style="color: #1e293b; font-family: 'Courier New', monospace;"></code></pre>
                 </div>
+                <p><strong>Recommended Action:</strong> <span id="actionText"></span></p>
+            </div>
         </section>
-
-        <section id="ai-specialization">
-
         <section id="ai-specialization">
             <h2>AI Specialization & Masteries</h2>
             <div class="grid-3">
@@ -160,7 +162,6 @@
                         <li>Researching <strong>RAG</strong> architectures to bridge enterprise data with LLMs.</li>
                     </ul>
                 </div>
-
                 <div class="card">
                     <span class="project-env">Systems Integration</span>
                     <h4>Applied AIOps</h4>
@@ -182,7 +183,7 @@
                 </div>
             </div>
         </section>
-
+        
         <section id="stack-radar">
             <h2>Systems & AI Stack</h2>
             <div class="repo-grid">
