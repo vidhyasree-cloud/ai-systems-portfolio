@@ -131,12 +131,16 @@
             </p>
             
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-             <textarea id="incidentInput" placeholder="Try: 'Production cluster latency' or 'Cross-platform mobile crash spike'"></textarea>
-                       style="flex: 1; min-width: 250px; padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
-                <button onclick="runInvestigation()" style="background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s;">
-                    Investigate
-                </button>
-            </div>
+    <textarea id="incidentInput" 
+              placeholder="Try: 'Production cluster latency' or 'Cross-platform mobile crash spike'"
+              style="flex: 1; min-width: 250px; padding: 12px; border-radius: 6px; border: 1px solid var(--border);">
+    </textarea>
+
+    <button onclick="runInvestigation()" 
+            style="background: var(--accent); color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.3s;">
+        Investigate
+    </button>
+</div>
 
             <div id="aiResponse" style="margin-top: 20px; font-size: 0.9rem; display: none; background: white; padding: 20px; border-radius: 8px; border-left: 4px solid var(--accent); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
                 </div>
